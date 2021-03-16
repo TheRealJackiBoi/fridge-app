@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import firebase from './firebase.js'
 import React, { Component } from 'react';
@@ -19,36 +18,6 @@ class ComponentToPrint extends React.Component {
 }
 
 
-
-const hello = 'hello';
-
-class UserTD extends React.Component {
-  get user () {
-    user.on('value', (snapshot) => {
-    const data = snapshot.val();
-    console.log(data);
-    const theUser = data;
-    
-    return {name: theUser.name, email: theUser.email, password: theUser.password}; 
-  });
-};
-
-render() {
-  const data = this.user;
-
-  return (
-    <tr>
-    <td>{data.name}</td>
-    <td>{data.email}</td>
-    <td>{data.password}</td>
-    </tr>
-  );
-  }}
-
-function App() { 
-  console.log(firebase.database().ref('users/').key);
-
- 
 
 
 const body = (<body>

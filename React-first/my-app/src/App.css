@@ -1,54 +1,137 @@
 body {
   text-align: center;
   align-content: center;
+
+  padding: 0px;
+
+  --shadow-color: rgba(0, 0, 0, 0.16);
+  --nearly-white: #EFEFEF;
+  --navbar-background: #102E4A;
+
+  --text-color-dark: #4B4B4B;
+  
+  --textSize-title: 40px;
+  --navBar-text-size: 20px;
+
+  --text-size-table: 20px;
+  --text-size-table-header: 20px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+#fridge-image {
+  position: absolute;
+  max-width: 555px;
+  max-width: 608px;
+  bottom: 0px;
+  right: 10vw;
 }
 
+.navBar {
+  background-color: var(--navbar-background);
+
+  top: 0px;
+  width: 100vw;
+  height: 70px;
+
+  align-content: center;
+}
+
+
+/*navbar styles*/
+.navBar ul {
+  list-style-type: none;
+  margin: 0px;
+  padding: 0px;
+  align-content: center;
+  overflow: hidden;
+  width: 100vw;
+}
+
+.navBar ul li {
+  float: right;
+  display: inline;
+}
+
+.navBar li a{
+  font-size: var(--navBar-text-size);
+  text-decoration: none;
+  padding: 20px;
+  color: var(--nearly-white);
+  display: block;
+}
+
+#logo {
+  float: left;
+  font-size: var(--textSize-title);
+}
+
+
+
+
+
+/*table styles*/
 table {
-  background-color: #282c34;
-  color: white;
+  position: absolute;
+  top: 20vh;
+  left: 8vw;
+
   width: 60%;
   margin: 0 auto;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 20px;
+
+  max-width: 820px;
+
+  text-align: left;
+  font-size: var(--text-size-table);
+}
+
+td, th {
+  background-color: var(--nearly-white);
+  color: var(--text-color-dark);
   
+  padding-left: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 3px 3px var(--shadow-color);
+
 }
 
-table td, table th {
-  border: 1px solid white;
-  padding: 10px;
-  
+th {
+  background-color: white;
+  box-shadow: 0px 0px 0px white;
+  font-size: var(--text-size-table-header);
+}
+.varenavn {
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.ud-dato {
+  width: 100px;
+  text-align: center;  
+  padding: 20px
+}
+.amount  {
+  width: 5px;
+  text-align: center;  
+  padding: 10px
+}
+.ud-dato th {
+  text-align: left;
+}
+.amount  th {
+  text-align: left;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.image-display {
+  background-color: white;
+  margin-right: 0px;
+  color: black;
+  box-shadow: 0px 0px 0px white;
+  width: 32px;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.image-display img {
+  max-height: 5vh;
+  max-width: auto;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
