@@ -29,7 +29,7 @@ export class UserStorage extends React.Component {
         const items = snapshot.val();
         console.log(items);
         const key = snapshot.key;
-        let item = { date: snapshot.val().date, name: snapshot.val().name, amount: snapshot.val().amount, picpath: "/resources/" + key + ".jpg"};
+        let item = { date: snapshot.val().date, name: snapshot.val().name, amount: snapshot.val().amount, picpath: "/images/" + key + ".jpg"};
           this.setState({varer: [item].concat(this.state.varer)});
       });
     
@@ -40,7 +40,10 @@ export class UserStorage extends React.Component {
       <table>
         <tbody>
           <tr>
-            <td className="image-display"></td>
+            <td className="image-display">
+              <td className="plus-minus-btn"></td>
+              <td className="plus-minus-btn"></td>
+            </td>
             <td className="searchbar-varer-td"><SearchBar onInput={this.onInput} /></td>
             </tr>
           <tr>
