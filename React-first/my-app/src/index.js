@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import './App.css';
+import './Search.css';
 import firebase from './firebase.js'
 import {NavBar} from './components/NavBar';
 import {Profile} from './components/Profile';
