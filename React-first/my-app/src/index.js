@@ -14,18 +14,29 @@ class App extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {loginStatus: true};
+    this.state = {
+      loginStatus: true,
+      user: null
+    };
+
+    this.onLogout = this.onLogout.bind(this);
+  }
+
+  onLogout() {
+    this.setState({
+      loginStatus: false,
+      user: null
+    });
   }
 
   render() {
     return(<div>
       
-      <NavBar loginStatus={this.state.loginStatus} />
+      <NavBar loginStatus={this.state.loginStatus} onLogout={this.onLogout} />
       
-      {this.state.loginStatus === true ? <Profile user={1} database={database}/> : <div></div> }
+      {this.state.loginStatus === true ? <Profile user={1} database={database} /> : <div></div> }
       
-      
-      <img id="fridge-image" src={"/images/Fridge-sticker-final.png"} alt="Fridge Logo" /> 
+      <img id="fridge-image" src={"/images/Fridge-sticker-final.png"} alt="Fridge Logo" />
     </div> );
   }
 }
