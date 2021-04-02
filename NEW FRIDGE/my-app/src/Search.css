@@ -1,0 +1,21 @@
+#searchbar-varer {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding-left: 10px;
+    left: 0px;
+
+    border: 0px;
+    border-radius: 8px;
+
+    background-color: rgba(0, 0, 0, 0);
+
+    font-size: 20px;
+}
+
+#searchbar-varer:focus {
+    outline: none;
+}
+.searchbar-varer-td {
+    padding: 0px;
+}
