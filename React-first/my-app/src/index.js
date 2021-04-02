@@ -1,45 +1,40 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+
 import reportWebVitals from './reportWebVitals';
+
+import './index.css';
 import './App.css';
 import './Search.css';
+
 import firebase from './firebase.js'
-import {NavBar} from './components/NavBar';
+import 'firebase/auth';
+import 'firebase/analytics';
+import { useAuthState } from 'react-firebase-hooks/auth';
+
 import {Profile} from './components/Profile';
+import {Welcome} from './components/Welcome';
 
-var database = firebase.database();
-class App extends React.Component {
+
+const database = firebase.database();
+const auth = firebase.auth();
+const analytics = firebase.analytics();
+
+
+function App() {
   
-  constructor(props) {
-    super(props);
+  const [user] = useAuthState(auth);
 
-    this.state = {
-      loginStatus: true,
-      user: null
-    };
 
-    this.onLogout = this.onLogout.bind(this);
-  }
-
-  onLogout() {
-    this.setState({
-      loginStatus: false,
-      user: null
-    });
-  }
-
-  render() {
     return(<div>
       
-      <NavBar loginStatus={this.state.loginStatus} onLogout={this.onLogout} />
+      <NavBar user={user}/>
       
-      {this.state.loginStatus === true ? <Profile user={1} database={database} /> : <div></div> }
+      {user ? <Profile user={1} database={database} /> : <Welcome/> }
       
       <img id="fridge-image" src={"/images/Fridge-sticker-final.png"} alt="Fridge Logo" />
     </div> );
   }
-}
 
 ReactDOM.render(
   (
@@ -47,6 +42,42 @@ ReactDOM.render(
   ),
   document.getElementById('root')
 );
+
+
+function SignOut() {
+  return auth.currentUser && (
+      <li><button className="sign-out" onClick={() => auth.signOut()} >Sign Out</button></li>
+    )
+}
+
+function Login() {
+
+  const signInWithGoogle = () => {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    auth.signInWithPopup(provider);
+    //check if there's a user with that uid in database, if not: create the user in database
+    /*if (user.uid === null){
+      console.log('error');
+    }*/
+  }
+
+  return (
+      <button className="sign-in" onClick={signInWithGoogle}>Login</button>
+  )
+
+}
+
+function NavBar(props) {
+
+  return(<div className="navBar">
+          <ul>
+            <li id="logo" >Dit Køleskab</li>
+      
+          {props.user ? <SignOut /> : <div><li><Login /></li></div>}
+        </ul>
+    </div>
+  );
+}
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
