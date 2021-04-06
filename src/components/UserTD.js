@@ -6,7 +6,8 @@ export class UserStorage extends React.Component {
       super(props);
       this.state = {
         searchinput: "",
-        varer: []
+        varer: [],
+        remove: true
       };
 
       this.onInput = this.onInput.bind(this); 
@@ -36,6 +37,38 @@ export class UserStorage extends React.Component {
     }
   
   render() {
+    if (this.state.remove) {
+      return (
+        <table>
+        <tbody>
+          <tr>
+            <td className="image-display">
+              <td className="plus-minus-btn"></td>
+              <td className="plus-minus-btn"></td>
+            </td>
+            <td className="searchbar-varer-td"><SearchBar onInput={this.onInput} /></td>
+            </tr>
+          <tr>
+            <th className="image-display" ></th>
+            <th className="varenavn">Varenavn</th>  
+            <th className="ud-dato" >Ud-Dato</th>  
+            <th className="amount" >Antal</th>  
+          </tr>
+        { this.state.varer.map(item => 
+        <tr>
+          <td className="remove-button"><i class="fa fa-minus" aria-hidden="true"></i></td>
+          <td className="image-display" >
+            <img src={item.picpath} alt={item.picpath}/>
+          </td>
+          <td>{item.name}</td>
+          <td className="ud-dato" >{item.date}</td>
+          <td className="amount">{item.amount}</td>
+        </tr>)
+        }
+        </tbody>
+      </table>
+      )
+    }
     return (
       <table>
         <tbody>
