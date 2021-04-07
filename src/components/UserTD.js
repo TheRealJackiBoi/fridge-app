@@ -7,10 +7,11 @@ export class UserStorage extends React.Component {
       this.state = {
         searchinput: "",
         varer: [],
-        remove: true
+        remove: "false"
       };
 
       this.onInput = this.onInput.bind(this); 
+      this.removeHandler = this.removeHandler.bind(this); 
     }
     //work in progress
     onInput(input) {
@@ -23,7 +24,17 @@ export class UserStorage extends React.Component {
           }
         });
     }
-  
+    
+    removeHandler() {
+      if (this.state.remove === "true") {
+        this.setState({remove: "false"})
+        console.log('false ' + this.state.remove)
+      } else {
+        this.setState({remove: "true"});
+        console.log('true ' + this.state.remove)
+      }
+    }
+
     componentDidMount() {
       const userItemsRef = this.props.database.ref('users/'+ this.props.user + '/varer');
       userItemsRef.on('child_added', (snapshot, prevChildKey) => {
@@ -37,18 +48,23 @@ export class UserStorage extends React.Component {
     }
   
   render() {
-    if (this.state.remove) {
+    if (this.state.remove === 'true') {
       return (
         <table>
         <tbody>
           <tr>
             <td className="image-display">
-              <td className="plus-minus-btn"></td>
-              <td className="plus-minus-btn"></td>
+              <td className="plus-minus-btn click">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+              </td>
+              <td id="remove-item" className="plus-minus-btn click" onClick={this.removeHandler} style= {{ backgroundColor:  '#e95959'}} >
+                <i class="fa fa-minus" aria-hidden="true"></i>
+              </td>
             </td>
             <td className="searchbar-varer-td"><SearchBar onInput={this.onInput} /></td>
             </tr>
           <tr>
+            <th></th>
             <th className="image-display" ></th>
             <th className="varenavn">Varenavn</th>  
             <th className="ud-dato" >Ud-Dato</th>  
@@ -56,7 +72,7 @@ export class UserStorage extends React.Component {
           </tr>
         { this.state.varer.map(item => 
         <tr>
-          <td className="remove-button"><i class="fa fa-minus" aria-hidden="true"></i></td>
+          <td className="remove-button click"><i class="fa fa-minus" aria-hidden="true"></i></td>
           <td className="image-display" >
             <img src={item.picpath} alt={item.picpath}/>
           </td>
@@ -74,8 +90,12 @@ export class UserStorage extends React.Component {
         <tbody>
           <tr>
             <td className="image-display">
-              <td className="plus-minus-btn"></td>
-              <td className="plus-minus-btn"></td>
+              <td className="plus-minus-btn click">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+              </td>
+              <td id="remove-item" className="plus-minus-btn click" onClick={this.removeHandler}>
+                <i class="fa fa-minus" aria-hidden="true"></i>
+              </td>
             </td>
             <td className="searchbar-varer-td"><SearchBar onInput={this.onInput} /></td>
             </tr>

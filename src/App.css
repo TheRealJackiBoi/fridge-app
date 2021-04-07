@@ -19,22 +19,25 @@ body {
   --text-size-table-header: 20px;
 }
 
+.click {
+  box-shadow: 0px 3px 1.5px var(--shadow-color);
+}
+
+.click:active {
+  box-shadow: 0px 3px 6px var(--shadow-color);
+}
+
 .remove-button {
   width: 5vw;
   height: 5vw;
-
+  padding: 0;
   display: flex;
   margin: auto;
-  
+  box-shadow: 0px 3px 1.5px var(--shadow-color);
   background-color: rgb(233, 89, 89);
 }
 .remove-button i {
   margin: auto;
-  
-}
-
-.remove-button:active {
-  box-shadow: 0px 3px 1px var(--shadow-color);
 }
 
 #fridge-image {
@@ -138,7 +141,6 @@ td, th {
   padding-left: 20px;
   border-radius: 8px;
   box-shadow: 0px 3px 3px var(--shadow-color);
-
 }
 
 th {
@@ -154,10 +156,15 @@ th {
   border-radius: 8px;
   box-shadow: 0px 3px 3px var(--shadow-color);
 
-  width: 5vh;
-  height: 5vh;
+  width: 3vh;
+  height: 3vh;
+  padding: 0;
+  display: inline-flex;
+  margin: auto 10px;
+}
 
-  margin: 0px;
+.plus-minus-btn i {
+  margin: auto;
 }
 
 .varenavn {
@@ -184,9 +191,10 @@ th {
   background-color: white;
   margin-right: 0px;
   padding: 0px;
+  padding-left: 20px;
   color: black;
   box-shadow: 0px 0px 0px white;
-  width: 32px;
+  min-width: 32px;
 }
 
 .image-display img {
