@@ -26,13 +26,23 @@ export function App() {
   const [user] = useAuthState(auth);
 
 
-    return(<div>
+    return(<div id="app">
       
       <NavBar user={user}/>
+      <div id="main">
+        {
+        user 
+        ? 
+        <Profile user={1} database={database} /> 
+        : 
+        <Welcome/> 
+        }
+
+        <div id="fridge-image-container">
+          <img id="fridge-image" src={"/images/Fridge-sticker-final.png"} alt="Fridge Logo" />
+        </div>
       
-      {user ? <Profile user={1} database={database} /> : <Welcome/> }
-      
-      <img id="fridge-image" src={"/images/Fridge-sticker-final.png"} alt="Fridge Logo" />
+      </div>
     </div> );
   }
 

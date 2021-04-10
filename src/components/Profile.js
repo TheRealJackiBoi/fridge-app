@@ -6,7 +6,7 @@ export class Profile extends React.Component {
     
     render() {
         return(
-            <div>
+            <div id="profile">
                 <UserStorage user={this.props.user} database={this.props.database}/>
             </div>
         );
