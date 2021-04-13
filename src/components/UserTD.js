@@ -1,4 +1,5 @@
 import React from 'react';
+import { NewItemMenu } from './NewItemMenu';
 import {SearchBar} from './SearchBar';
 
 export class UserStorage extends React.Component {
@@ -7,7 +8,8 @@ export class UserStorage extends React.Component {
       this.state = {
         searchinput: "",
         varer: [],
-        remove: "false"
+        remove: "false",
+        add: "true"
       };
 
       this.onInput = this.onInput.bind(this); 
@@ -87,11 +89,14 @@ export class UserStorage extends React.Component {
     }
     return (
       <table>
+        { this.state.add === "true" ? <NewItemMenu user={this.props.user} database={this.props.database} /> : ""}
         <tbody>
           <tr>
             <td className="image-display">
-              <td className="plus-minus-btn click">
-                <i class="fa fa-plus" aria-hidden="true"></i>
+              <td className="plus-minus-btn click"> 
+                <button id="plus-button">
+                  <i class="fa fa-plus" aria-hidden="true"></i>
+                </button>
               </td>
               <td id="remove-item" className="plus-minus-btn click" onClick={this.removeHandler}>
                 <i class="fa fa-minus" aria-hidden="true"></i>
