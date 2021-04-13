@@ -9,7 +9,7 @@ export class UserStorage extends React.Component {
         searchinput: "",
         varer: [],
         remove: "false",
-        add: "true"
+        add: "false"
       };
 
       this.onInput = this.onInput.bind(this); 
@@ -49,13 +49,52 @@ export class UserStorage extends React.Component {
     }
 
     componentDidMount() {
+      //newItem
       const userItemsRef = this.props.database.ref('users/'+ this.props.user + '/varer');
+      this.setState({varer: []});
       userItemsRef.on('child_added', (snapshot, prevChildKey) => {
         const items = snapshot.val();
-        console.log(items);
         const key = snapshot.key;
-        let item = { date: snapshot.val().date, name: snapshot.val().name, amount: snapshot.val().amount, picpath: "/images/" + key + ".jpg"};
+        let item = { key: key, date: snapshot.val().date, name: snapshot.val().name, amount: snapshot.val().amount, picpath: "/images/" + key + ".jpg"};
+        console.log(item, "added");
           this.setState({varer: [item].concat(this.state.varer)});
+      });
+      
+      //removeItem
+      userItemsRef.on('child_removed', (snapshot, prevChildKey) => {
+        const items = snapshot.val();
+        console.log(items, "removed");
+        const key = snapshot.key;
+        let item = { key: key, date: items.date, name: items.name, amount: items.amount, picpath: "/images/" + key + ".jpg"};
+        let index = this.state.varer.indexOf(item);
+        if (~index) {
+          this.setState(state => {
+            const list = this.state.varer.filter(index);
+            return list;
+          });
+        }
+      });
+
+      //changedItem
+      //https://duckduckgo.com/?q=how+to+replace+an+item+in+array+js+with+out+knowing+index&ia=web&iax=qa
+      userItemsRef.on('child_changed', (snapshot, prevChildKey) => {
+        const items = snapshot.val();
+        console.log(items, "changed");
+
+        const key = snapshot.key;
+        let item = { key: key, date: snapshot.val().date, name: snapshot.val().name, amount: snapshot.val().amount, picpath: "/images/" + key + ".jpg"};
+        this.setState(state => 
+          {
+            const newItems = this.state.varer.map((i, key, item) => {
+              if (i.key === key) {
+                return item;
+              } else {
+                return i;
+              }
+            })
+            console.log(newItems);
+            return newItems;
+          });
       });
     
     }
@@ -67,12 +106,12 @@ export class UserStorage extends React.Component {
         <tbody>
           <tr>
             <td className="image-display">
-              <td className="plus-minus-btn click">
-                <i class="fa fa-plus" aria-hidden="true"></i>
-              </td>
-              <td id="remove-item" className="plus-minus-btn click" onClick={this.removeHandler} style= {{ backgroundColor:  '#e95959'}} >
-                <i class="fa fa-minus" aria-hidden="true"></i>
-              </td>
+              <div className="plus-minus-btn click">
+                <i className="fa fa-plus" aria-hidden="true"></i>
+              </div>
+              <div id="remove-item" className="plus-minus-btn click" onClick={this.removeHandler} style= {{ backgroundColor:  '#e95959'}} >
+                <i className="fa fa-minus" aria-hidden="true"></i>
+              </div>
             </td>
             <td className="searchbar-varer-td"><SearchBar onInput={this.onInput} /></td>
             </tr>
@@ -84,7 +123,7 @@ export class UserStorage extends React.Component {
             <th className="amount" >Antal</th>  
           </tr>
             { this.state.varer.map(item => 
-              <tr>
+              <tr key={item.name}>
                 <td className="remove-button click"><i class="fa fa-minus" aria-hidden="true"></i></td>
                 <td className="image-display" >
                   <img src={item.picpath} alt={item.picpath}/>
@@ -100,18 +139,18 @@ export class UserStorage extends React.Component {
     }
     return (
       <table>
-        { this.state.add === "true" ? <NewItemMenu user={this.props.user} database={this.props.database} addHandler={this.addHandler} /> : ""}
+        { this.state.add === "true" ? <NewItemMenu user={this.props.user} database={this.props.database} addHandler={this.addHandler} /> : <thead></thead>}
         <tbody>
           <tr>
             <td className="image-display">
-              <td className="plus-minus-btn click"> 
+              <div className="plus-minus-btn click"> 
                 <button id="plus-button" onClick={this.addHandler}>
-                  <i class="fa fa-plus" aria-hidden="true"></i>
+                  <i className="fa fa-plus" aria-hidden="true"></i>
                 </button>
-              </td>
-              <td id="remove-item" className="plus-minus-btn click" onClick={this.removeHandler}>
-                <i class="fa fa-minus" aria-hidden="true"></i>
-              </td>
+              </div>
+              <div id="remove-item" className="plus-minus-btn click" onClick={this.removeHandler}>
+                <i className="fa fa-minus" aria-hidden="true"></i>
+              </div>
             </td>
             <td className="searchbar-varer-td"><SearchBar onInput={this.onInput} /></td>
             </tr>
@@ -122,7 +161,7 @@ export class UserStorage extends React.Component {
             <th className="amount" >Antal</th>  
           </tr>
         { this.state.varer.map(item => 
-        <tr>
+        <tr key={item.name}>
           <td className="image-display" >
             <img src={item.picpath} alt={item.picpath}/>
           </td>

@@ -18,7 +18,6 @@ import {Welcome} from './components/Welcome';
 
 const database = firebase.database();
 const auth = firebase.auth();
-const analytics = firebase.analytics();
 
 
 export function App() {
@@ -30,6 +29,7 @@ export function App() {
       
       <NavBar user={user}/>
       <div id="main">
+        
         {
         user 
         ? 
