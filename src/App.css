@@ -229,7 +229,7 @@ th {
   display: grid;
   grid-template-columns: 2fr 10fr;
 
-  width: 60vw;
+  width: 50vw;
   
 
   background-color: var(--nearly-white);
@@ -240,7 +240,7 @@ th {
   box-shadow: 0px 3px 3px var(--shadow-color);
 }
 
-#extra-plus-button {
+#close-newItemMenu {
   width: 3vw;
   height: 3vw;
 
@@ -251,10 +251,19 @@ th {
 }
 
 #newitemDisplay {
+  display: grid;
+  grid-template-rows: 2fr 8fr;
+
   background-color: var(--nearly-white);
   color: var(--text-color-dark);
   
   margin: 2vw;
+  padding: 1vw;
+  border-radius: 8px;
+  box-shadow: 0px 3px 3px var(--shadow-color);
+}
+
+#searchbar-varer-div {
   padding: 1vw;
   border-radius: 8px;
   box-shadow: 0px 3px 3px var(--shadow-color);
