@@ -4,6 +4,20 @@ import 'firebase/auth';
 import 'firebase/analytics';
 import {} from 'react-firebase-hooks/auth';
 
+
+const Button = props => {
+    const handleClick = () => {
+        if (props.onClick) {
+            props.onClick(props.item);
+        }
+    }
+    return (
+    <button onClick={handleClick} className="item-display click"> 
+        <img src={props.item.picpath} alt="" className="item-display-img"/>
+        <p className="item-display-name" >{props.item.name}</p>
+    </button>)
+}
+
 export function NewItemMenu(props) {
 
     const [user, setUser] = useState(props.user);
@@ -11,19 +25,18 @@ export function NewItemMenu(props) {
 
     const database = props.database;
     
-    const addItem = e => {
-        console.log('item added to user');
-
+    const addItem = item => {
+        
         const userVarer = database.ref('users/'+ user + '/varer')
-        const newVarerKey = userVarer.push();
-
-        newVarerKey.set({
-            "barcode": "098023198",
-            "name": "newItem",
-            "amount": 4,
-            "date": "4/4/21"
+        
+        userVarer.push().set({
+            "barcode": item.barcode,
+            "name": item.name,
+            "amount": item.amount,
+            "date": item.date
         });
-
+        
+        console.log('item added to user');
     }
     
 
@@ -43,6 +56,7 @@ export function NewItemMenu(props) {
           Object.values(items).forEach(item =>{
           const itemFormated = { 
                        key: key, 
+                       barcode: item.barcode,
                        date: item.date, 
                        name: item.name, 
                        amount: item.amount, 
@@ -68,10 +82,7 @@ export function NewItemMenu(props) {
                     </div>
                 <div id="itemDisplayIcon" >
                     {varer.map(item =>
-                        <button key={item.name} className="item-display click" onClick={addItem}>
-                            <img src={item.picpath} alt="" className="item-display-img"/>
-                            <p className="item-display-name" >{item.name}</p>
-                        </button>
+                        <Button key={item.name} item={item} onClick={addItem} />
                     )}
                 </div>
             </div>
