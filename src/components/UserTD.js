@@ -49,23 +49,36 @@ export class UserStorage extends React.Component {
     }
 
     componentDidMount() {
+      //loads from firebase made with inspisration from https://www.robinwieruch.de/react-firebase-realtime-database 
       //newItem
       const userItemsRef = this.props.database.ref('users/'+ this.props.user + '/varer');
       this.setState({varer: []});
-      userItemsRef.on('child_added', (snapshot, prevChildKey) => {
+
+      userItemsRef.on('value', (snapshot, prevChildKey) => {
         const items = snapshot.val();
-        const key = snapshot.key;
-        let item = { key: key, date: snapshot.val().date, name: snapshot.val().name, amount: snapshot.val().amount, picpath: "/images/" + key + ".jpg"};
-        console.log(item, "added");
-          this.setState({varer: [item].concat(this.state.varer)});
-      });
+        if(items) {
+          let itemsFormated = [];
+          const key = snapshot.key;
+          Object.values(items).forEach(item=>{
+            let itemFormated = { 
+              key: key, 
+              date: item.date, 
+              name: item.name, 
+              amount: item.amount, 
+              picpath: "/images/" + item.barcode + ".jpg"
+            };
+            itemsFormated.push(itemFormated)
+         });   
+         console.log(itemsFormated, "added");
+         this.setState({varer: itemsFormated});
+      }});
       
       //removeItem
       userItemsRef.on('child_removed', (snapshot, prevChildKey) => {
         const items = snapshot.val();
         console.log(items, "removed");
         const key = snapshot.key;
-        let item = { key: key, date: items.date, name: items.name, amount: items.amount, picpath: "/images/" + key + ".jpg"};
+        let item = { key: key, date: items.date, name: items.name, amount: items.amount, picpath: "/images/" + items.barcode + ".jpg"};
         let index = this.state.varer.indexOf(item);
         if (~index) {
           this.setState(state => {
@@ -82,7 +95,7 @@ export class UserStorage extends React.Component {
         console.log(items, "changed");
 
         const key = snapshot.key;
-        let item = { key: key, date: snapshot.val().date, name: snapshot.val().name, amount: snapshot.val().amount, picpath: "/images/" + key + ".jpg"};
+        let item = { key: key, date: items.date, name: items.name, amount: items.amount, picpath: "/images/" + items.barcode + ".jpg"};
         this.setState(state => 
           {
             const newItems = this.state.varer.map((i, key, item) => {
