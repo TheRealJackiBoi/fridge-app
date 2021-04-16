@@ -3,7 +3,8 @@ import { NewItemMenu } from './NewItemMenu';
 import {SearchBar} from './SearchBar';
 
 
-// mini button component, so that it is possible to give the event handler the item object to process and add to user
+// mini button component, so that it is possible to give the event handler the item object to process 
+// and remove item from user
 const Button = props => {
   const handleClick = () => {
       if (props.onClick) {
