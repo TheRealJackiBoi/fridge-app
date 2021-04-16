@@ -14,6 +14,8 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 
 import {Profile} from './components/Profile';
 import {Welcome} from './components/Welcome';
+import {NavBar} from './components/NavBar';
+
 
 
 const database = firebase.database();
@@ -27,7 +29,7 @@ export function App() {
 
     return(<div id="app">
       
-      <NavBar user={user}/>
+      <NavBar user={user} auth={auth} />
       <div id="main">
         
         {
@@ -54,40 +56,12 @@ ReactDOM.render(
 );
 
 
-function SignOut() {
-  return auth.currentUser && (
-      <li><button className="sign-out" onClick={() => auth.signOut()} >Sign Out</button></li>
-    )
-}
-
-function Login() {
-
-  const signInWithGoogle = () => {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    auth.signInWithPopup(provider);
-    //check if there's a user with that uid in database, if not: create the user in database
-    /*if (user.uid === null){
-      console.log('error');
-    }*/
+firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    console.log(user);
   }
+});
 
-  return (
-      <button className="sign-in" onClick={signInWithGoogle}>Login</button>
-  )
-
-}
-
-function NavBar(props) {
-
-  return(<div className="navBar">
-          <ul>
-            <li id="logo" >Dit Køleskab</li>
-      
-          {props.user ? <SignOut /> : <div><li><Login /></li></div>}
-        </ul>
-    </div>
-  );
-}
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
