@@ -2,6 +2,21 @@ import React from 'react';
 import { NewItemMenu } from './NewItemMenu';
 import {SearchBar} from './SearchBar';
 
+
+// mini button component, so that it is possible to give the event handler the item object to process and add to user
+const Button = props => {
+  const handleClick = () => {
+      if (props.onClick) {
+          props.onClick(props.item);
+      }
+  }
+  return (
+  <button onClick={handleClick} className="plus-minus-btn click"> 
+      <i class="fa fa-minus" aria-hidden="true"></i>
+  </button>)
+}
+
+
 export class UserStorage extends React.Component {
     constructor(props) {
       super(props);
@@ -48,18 +63,32 @@ export class UserStorage extends React.Component {
       }
     }
 
+
+    //removeItem eventhandler
+    removeItem = item => {
+        
+      const userVarer = this.props.database.ref('users/'+ this.props.user + '/varer/' + item.key)
+      
+      userVarer.remove();
+      
+      console.log(item.key, ' removed from user');
+  }
+
+    //Runs when components mounts to the dom
     componentDidMount() {
       //loads from firebase made with inspisration from https://www.robinwieruch.de/react-firebase-realtime-database 
       //newItem
       const userItemsRef = this.props.database.ref('users/'+ this.props.user + '/varer');
       this.setState({varer: []});
 
-      userItemsRef.on('value', (snapshot, prevChildKey) => {
+      userItemsRef.on('value', (snapshot) => {
         const items = snapshot.val();
         if(items) {
+          console.log(items);
           let itemsFormated = [];
-          const key = snapshot.key;
+          let i = 0;
           Object.values(items).forEach(item=>{
+            const key = Object.keys(items)[i];
             let itemFormated = { 
               key: key, 
               date: item.date, 
@@ -67,6 +96,7 @@ export class UserStorage extends React.Component {
               amount: item.amount, 
               picpath: "/images/" + item.barcode + ".jpg"
             };
+            i++;
             itemsFormated.push(itemFormated)
          });   
          console.log(itemsFormated, "added");
@@ -74,7 +104,7 @@ export class UserStorage extends React.Component {
       }});
       
       //removeItem
-      userItemsRef.on('child_removed', (snapshot, prevChildKey) => {
+      userItemsRef.on('child_removed', (snapshot) => {
         const items = snapshot.val();
         console.log(items, "removed");
         const key = snapshot.key;
@@ -90,7 +120,7 @@ export class UserStorage extends React.Component {
 
       //changedItem
       //https://duckduckgo.com/?q=how+to+replace+an+item+in+array+js+with+out+knowing+index&ia=web&iax=qa
-      userItemsRef.on('child_changed', (snapshot, prevChildKey) => {
+      userItemsRef.on('child_changed', (snapshot) => {
         const items = snapshot.val();
         console.log(items, "changed");
 
@@ -137,7 +167,9 @@ export class UserStorage extends React.Component {
           </tr>
             { this.state.varer.map(item => 
               <tr key={item.name}>
-                <td className="remove-button click"><i class="fa fa-minus" aria-hidden="true"></i></td>
+                <td className="remove-button click">
+                  <Button key={item.name} item={item} onClick={this.removeItem}/>
+                  </td>
                 <td className="image-display" >
                   <img src={item.picpath} alt={item.picpath}/>
                 </td>
