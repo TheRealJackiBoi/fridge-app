@@ -23,6 +23,7 @@ export function NewItemMenu(props) {
 
     //states for the component
     const [user, setUser] = useState(props.user);
+    const [userKey, setUserKey] = useState("1");
     const [varer, setVarer] = useState([]);
 
     //the database variable recieved from props
@@ -31,7 +32,7 @@ export function NewItemMenu(props) {
     //event handler for onClick of the add button of an item, recieves item as an parameter
     const addItem = item => {
         
-        const userVarer = database.ref('users/'+ user + '/varer')
+        const userVarer = database.ref('users/'+ userKey + '/varer')
         
         userVarer.push().set({
             "barcode": item.barcode,
@@ -51,19 +52,42 @@ export function NewItemMenu(props) {
     useEffect(() => {
         setVarer([]);
 
+        const getUserKey = () => {
+            const usersRef = props.database.ref('users/');
+            usersRef.on('value', (snapshot) => {
+              const users = snapshot.val();
+              if(users) {
+                let i = 0;
+                Object.values(users).forEach(thisUser=>{
+                  const key = Object.keys(users)[i];
+                  if (thisUser.uid === props.user.uid) {
+                    console.log(key);
+                    setUserKey(key);
+                    return ;
+                  }
+                  i++;
+               });   
+            } else {return {};}
+          });
+          }
+
+          getUserKey();
+
         userItemsRef.on('value', (snapshot) => {
           const items = snapshot.val();
-          const key = snapshot.key;
           let itemsFormated = [];
+          let i = 0;
           Object.values(items).forEach(item =>{
-          const itemFormated = { 
-                       key: key, 
-                       barcode: item.barcode,
-                       date: item.date, 
-                       name: item.name, 
-                       amount: item.amount, 
-                       picpath: "/images/" + item.barcode + ".jpg"
-                    };
+            const key = Object.keys(items)[i];
+            const itemFormated = { 
+                        key: key, 
+                        barcode: item.barcode,
+                        date: item.date, 
+                        name: item.name, 
+                        amount: item.amount, 
+                        picpath: "/images/" + item.barcode + ".jpg"
+                        };
+          i++;
           itemsFormated.push(itemFormated);
         });
         console.log(itemsFormated, "value");

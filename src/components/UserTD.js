@@ -25,12 +25,14 @@ export class UserStorage extends React.Component {
         searchinput: "",
         varer: [],
         remove: "false",
-        add: "false"
+        add: "false",
+        userKey: ""
       };
 
       this.onInput = this.onInput.bind(this); 
       this.removeHandler = this.removeHandler.bind(this); 
       this.addHandler = this.addHandler.bind(this); 
+  
     }
     //work in progress
     onInput(input) {
@@ -63,46 +65,65 @@ export class UserStorage extends React.Component {
         console.log('true ' + this.state.add)
       }
     }
+    getUserKey() {
+      const usersRef = this.props.database.ref('users/');
+      usersRef.on('value', (snapshot) => {
+        const users = snapshot.val();
+        if(users) {
+          let i = 0;
+          Object.values(users).forEach(thisUser=>{
+            const key = Object.keys(users)[i];
+            if (thisUser.uid === this.props.user.uid) {
+              console.log(key);
+              this.setState({userKey: key});
 
+              const userItemsRef = this.props.database.ref('users/'+ key + '/varer');
+                userItemsRef.on('value', (snapshot) => {
+                  const items = snapshot.val();
+                  if(items) {
+                    let itemsFormated = [];
+                    let i = 0;
+                    Object.values(items).forEach(item=>{
+                      const key = Object.keys(items)[i];
+                      let itemFormated = { 
+                        key: key, 
+                        date: item.date, 
+                        name: item.name, 
+                        amount: item.amount, 
+                        picpath: "/images/" + item.barcode + ".jpg"
+                      };
+                      i++;
+                      itemsFormated.push(itemFormated)
+                  });   
+                  console.log(itemsFormated, "added");
+                  this.setState({varer: itemsFormated});
+                }});
+            }
+            i++;
+         });   
+      }
+    });
+    }
 
     //removeItem eventhandler
     removeItem = item => {
-        
-      const userVarer = this.props.database.ref('users/'+ this.props.user + '/varer/' + item.key)
+      
+      const userVarer = this.props.database.ref('users/'+ this.state.userKey + '/varer/' + item.key)
       
       userVarer.remove();
       
-      console.log(item.key, ' removed from user');
+      console.log(item.key, ' removed from user: ', this.state.userKey);
   }
 
     //Runs when components mounts to the dom
     componentDidMount() {
       //loads from firebase made with inspisration from https://www.robinwieruch.de/react-firebase-realtime-database 
       //newItem
-      const userItemsRef = this.props.database.ref('users/'+ this.props.user + '/varer');
+      const userItemsRef = this.props.database.ref('users/'+ this.state.userKey + '/varer');
       this.setState({varer: []});
+      this.getUserKey();
 
-      userItemsRef.on('value', (snapshot) => {
-        const items = snapshot.val();
-        if(items) {
-          console.log(items);
-          let itemsFormated = [];
-          let i = 0;
-          Object.values(items).forEach(item=>{
-            const key = Object.keys(items)[i];
-            let itemFormated = { 
-              key: key, 
-              date: item.date, 
-              name: item.name, 
-              amount: item.amount, 
-              picpath: "/images/" + item.barcode + ".jpg"
-            };
-            i++;
-            itemsFormated.push(itemFormated)
-         });   
-         console.log(itemsFormated, "added");
-         this.setState({varer: itemsFormated});
-      }});
+      
       
       //removeItem
       userItemsRef.on('child_removed', (snapshot) => {
@@ -121,25 +142,24 @@ export class UserStorage extends React.Component {
 
       //changedItem
       //https://duckduckgo.com/?q=how+to+replace+an+item+in+array+js+with+out+knowing+index&ia=web&iax=qa
-      userItemsRef.on('child_changed', (snapshot) => {
-        const items = snapshot.val();
-        console.log(items, "changed");
+      // userItemsRef.on('child_changed', (snapshot) => {
+      //   const items = snapshot.val();
+      //   console.log(items, "changed");
 
-        const key = snapshot.key;
-        let item = { key: key, date: items.date, name: items.name, amount: items.amount, picpath: "/images/" + items.barcode + ".jpg"};
-        this.setState(state => 
-          {
-            const newItems = this.state.varer.map((i, key, item) => {
-              if (i.key === key) {
-                return item;
-              } else {
-                return i;
-              }
-            })
-            console.log(newItems);
-            return newItems;
-          });
-      });
+      //   const key = snapshot.key;
+      //   let item = { key: key, date: items.date, name: items.name, amount: items.amount, picpath: "/images/" + items.barcode + ".jpg"};
+      //   this.setState(state => 
+      //     {
+      //       const newItems = this.state.varer.map((i, key, item) => {
+      //         if (i.key === key) {
+      //           return item;
+      //         } else {
+      //           return i;
+      //         }
+      //       })
+      //       return newItems;
+      //     });
+      // });
     
     }
   

@@ -25,7 +25,7 @@ const auth = firebase.auth();
 export function App() {
   
   const [user] = useAuthState(auth);
-
+  
 
     return(<div id="app">
       
@@ -35,7 +35,7 @@ export function App() {
         {
         user 
         ? 
-        <Profile user={1} database={database} /> 
+        <Profile user={user} database={database} /> 
         : 
         <Welcome/> 
         }
@@ -56,11 +56,44 @@ ReactDOM.render(
 );
 
 
+const checkUserInDb = (user) => {
+  const userRef = database.ref('users/');
+  if (user !== null) {
+    userRef.on('value', (snapshot) => {
+      const users = snapshot.val();
+      Object.values(users).forEach(checkingUser =>{
+        if (user.uid === checkingUser.uid) {
+          return true;
+        }
+    });
+      return false;
+    })
+  }
+}
+
+
 firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
     console.log(user);
-  }
-});
+    if (checkUserInDb === false) {  
+      const userRef = database.ref('users/');      
+      userRef.push().set({
+        "key": "",
+        "uid": user.uid,
+        "name": user.displayName,
+        "varer": {}
+      });
+      userRef.on('value', (snapshot) => {
+        const users = snapshot.val();
+        let i = 0;
+        Object.values(users).forEach(thisUser => {
+          const key = Object.keys(users)[i];
+          if (thisUser.uid === user.uid) {
+            database.ref('users/' + key + '/').update({"key": key});
+          }
+    })
+  })
+}}});
 
 
 // If you want to start measuring performance in your app, pass a function
