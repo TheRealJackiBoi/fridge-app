@@ -63,36 +63,27 @@ const checkUserInDb = (user) => {
       const users = snapshot.val();
       Object.values(users).forEach(checkingUser =>{
         if (user.uid === checkingUser.uid) {
-          return true;
+          return "true";
         }
-    });
-      return false;
+      });
+
+      return "false";
     })
   }
 }
 
 
-firebase.auth().onAuthStateChanged(function(user) {
+auth.onAuthStateChanged(user => {
   if (user) {
     console.log(user);
-    if (checkUserInDb === false) {  
+    if (checkUserInDb(user) === "false") {  
       const userRef = database.ref('users/');      
       userRef.push().set({
-        "key": "",
         "uid": user.uid,
         "name": user.displayName,
         "varer": {}
       });
-      userRef.on('value', (snapshot) => {
-        const users = snapshot.val();
-        let i = 0;
-        Object.values(users).forEach(thisUser => {
-          const key = Object.keys(users)[i];
-          if (thisUser.uid === user.uid) {
-            database.ref('users/' + key + '/').update({"key": key});
-          }
-    })
-  })
+      console.log('user added');
 }}});
 
 

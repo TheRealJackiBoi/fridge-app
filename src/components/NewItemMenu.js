@@ -32,7 +32,7 @@ export function NewItemMenu(props) {
     //event handler for onClick of the add button of an item, recieves item as an parameter
     const addItem = item => {
         
-        const userVarer = database.ref('users/'+ userKey + '/varer')
+        const userVarer = database.ref('users/'+ userKey + '/varer');
         
         userVarer.push().set({
             "barcode": item.barcode,
