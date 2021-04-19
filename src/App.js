@@ -63,11 +63,11 @@ const checkUserInDb = (user) => {
       const users = snapshot.val();
       Object.values(users).forEach(checkingUser =>{
         if (user.uid === checkingUser.uid) {
-          return "true";
+          return true;
         }
       });
 
-      return "false";
+      return false;
     })
   }
 }
@@ -76,7 +76,7 @@ const checkUserInDb = (user) => {
 auth.onAuthStateChanged(user => {
   if (user) {
     console.log(user);
-    if (checkUserInDb(user) === "false") {  
+    if (!checkUserInDb(user)) {  
       const userRef = database.ref('users/');      
       userRef.push().set({
         "uid": user.uid,
