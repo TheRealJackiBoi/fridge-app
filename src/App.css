@@ -23,6 +23,7 @@ body {
   --text-size-table-header: 20px;
 }
 
+/* SCROLLBAR */
 /* width */
 ::-webkit-scrollbar {
   width: 10px;
@@ -44,7 +45,7 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #555; 
 }
-
+ 
 #root {
   width: 100vw;
   height: 100vh;
