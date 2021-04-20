@@ -57,37 +57,43 @@ ReactDOM.render(
 
 
 const checkUserInDb = (user) => {
-  const userRef = database.ref('users/');
-  if (user !== null) {
-    userRef.on('value', (snapshot) => {
-      const users = snapshot.val();
-      Object.values(users).forEach(checkingUser =>{
-        if (user.uid === checkingUser.uid) {
-          return true;
-        }
-      });
-
-      return false;
-    })
+  
   }
-}
+
 
 
 auth.onAuthStateChanged(user => {
   if (user) {
+    if (user != null) {
     console.log(user);
-    if (!checkUserInDb(user)) {  
-      const userRef = database.ref('users/');      
-      userRef.push().set({
-        "uid": user.uid,
-        "name": user.displayName,
-        "varer": {}
+    
+    //path for user in db
+    const usersRef = database.ref('users/');
+    let inDb = false;
+    //gets users
+    usersRef.on('value', (snapshot) => {
+      const users = snapshot.val();
+       Object.values(users).forEach(checkingUser => {
+        //checks for uid in db
+        if (user.uid === checkingUser.uid) {
+          inDb = true;
+        }
       });
-      console.log('user added');
+      //if user isn't in db, push user
+      if (inDb === false) {
+        usersRef.push().set({
+          "uid": user.uid,
+          "name": user.displayName,
+          "varer": {}
+        });
+        console.log('user added');
+      }
+    })   
+      
 }}});
 
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals(console.log);
+//reportWebVitals(console.log);
