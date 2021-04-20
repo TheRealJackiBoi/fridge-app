@@ -94,7 +94,6 @@ export class UserStorage extends React.Component {
                       i++;
                       itemsFormated.push(itemFormated)
                   });   
-                  console.log(itemsFormated, "added");
                   this.setState({varer: itemsFormated});
                 }});
             }
@@ -127,7 +126,6 @@ export class UserStorage extends React.Component {
       //removeItem
       userItemsRef.on('child_removed', (snapshot) => {
         const items = snapshot.val();
-        console.log(items, "removed");
         const key = snapshot.key;
         let item = { key: key, date: items.date, name: items.name, amount: items.amount, picpath: "/images/" + items.barcode + ".jpg"};
         let index = this.state.varer.indexOf(item);

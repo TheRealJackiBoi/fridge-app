@@ -64,9 +64,7 @@ const checkUserInDb = (user) => {
 
 auth.onAuthStateChanged(user => {
   if (user) {
-    if (user != null) {
-    console.log(user);
-    
+    if (user != null) {    
     //path for user in db
     const usersRef = database.ref('users/');
     let inDb = false;
