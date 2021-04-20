@@ -23,6 +23,28 @@ body {
   --text-size-table-header: 20px;
 }
 
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+  border-radius: 8px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+  border-radius: 8px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
 #root {
   width: 100vw;
   height: 100vh;
@@ -37,20 +59,20 @@ body {
 }
 
 #main {
-  top: 20vh;
-  height: 100%;
+  height: 90%;
   display: grid;
   grid-template-columns: 7.5fr 3fr;
-
+  overflow-x: hidden;
+  overflow-y: scroll;
   text-align: left;
   font-size: var(--text-size-table);
 }
 
 #intro {
-  margin-top: 20vh;
+  margin: 10vh auto auto;
   padding: 2vh 2vw;
   position: relative;
-  
+  width: clamp(45ch, 50%, 75vh);
 }
 
 .click {
@@ -124,7 +146,7 @@ body {
 }
 
 #profile {
-  margin: 20vh auto auto;
+  margin: 10vh auto auto;
   padding: 2vh 2vw;
   position: relative;
 }
@@ -133,7 +155,6 @@ body {
 table {
   border-collapse: separate;
   border-spacing: 20px;
-
   text-align: left;
   font-size: var(--text-size-table);
 }

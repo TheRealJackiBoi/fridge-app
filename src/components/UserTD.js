@@ -74,7 +74,6 @@ export class UserStorage extends React.Component {
           Object.values(users).forEach(thisUser=>{
             const key = Object.keys(users)[i];
             if (thisUser.uid === this.props.user.uid) {
-              console.log(key);
               this.setState({userKey: key});
 
               const userItemsRef = this.props.database.ref('users/'+ key + '/varer');
@@ -187,9 +186,9 @@ export class UserStorage extends React.Component {
             <th className="amount" >Antal</th>  
           </tr>
             { this.state.varer.map(item => 
-              <tr key={item.name}>
+              <tr key={item.key}>
                 <td className="remove-button click">
-                  <Button key={item.name} item={item} onClick={this.removeItem}/>
+                  <Button key={item.key} item={item} onClick={this.removeItem}/>
                   </td>
                 <td className="image-display" >
                   <img src={item.picpath} alt={item.picpath}/>
@@ -227,7 +226,7 @@ export class UserStorage extends React.Component {
             <th className="amount" >Antal</th>  
           </tr>
         { this.state.varer.map(item => 
-        <tr key={item.name}>
+        <tr key={item.key}>
           <td className="image-display" >
             <img src={item.picpath} alt={item.picpath}/>
           </td>
