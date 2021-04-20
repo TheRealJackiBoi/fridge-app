@@ -84,6 +84,7 @@ auth.onAuthStateChanged(user => {
         usersRef.push().set({
           "uid": user.uid,
           "name": user.displayName,
+          "email": user.email,
           "varer": {}
         });
         console.log('user added');
