@@ -169,10 +169,6 @@ export class UserStorage extends React.Component {
           <tr>
             {/* + - */}
             <td className="image-display">
-              {/* + */}
-              <div className="plus-minus-btn click">
-                <i className="fa fa-plus" aria-hidden="true"></i>
-              </div>
               {/* - */}
               <div id="remove-item" className="plus-minus-btn click" onClick={this.removeHandler} style= {{ backgroundColor:  '#e95959'}} >
                 <i className="fa fa-minus" aria-hidden="true"></i>
