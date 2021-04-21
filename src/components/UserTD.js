@@ -13,7 +13,7 @@ const Button = props => {
   }
   return (
   <button onClick={handleClick} className="plus-minus-btn click"> 
-      <i class="fa fa-minus" aria-hidden="true"></i>
+      <i className="fa fa-minus" aria-hidden="true"></i>
   </button>)
 }
 

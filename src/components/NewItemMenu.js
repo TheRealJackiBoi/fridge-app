@@ -74,24 +74,23 @@ export function NewItemMenu(props) {
           getUserKey();
 
         userItemsRef.on('value', (snapshot) => {
-          const items = snapshot.val();
-          let itemsFormated = [];
-          let i = 0;
-          Object.values(items).forEach(item =>{
-            const key = Object.keys(items)[i];
-            const itemFormated = { 
-                        key: key, 
-                        barcode: item.barcode,
-                        date: item.date, 
-                        name: item.name, 
-                        amount: item.amount, 
-                        picpath: "/images/" + item.barcode + ".jpg"
-                        };
-          i++;
-          itemsFormated.push(itemFormated);
-        });
-        console.log(itemsFormated, "value");
-        setVarer(itemsFormated);
+            const items = snapshot.val();
+            let itemsFormated = [];
+            let i = 0;
+            Object.values(items).forEach(item =>{
+                const key = Object.keys(items)[i];
+                const itemFormated = { 
+                            key: key, 
+                            barcode: item.barcode,
+                            date: item.date, 
+                            name: item.name, 
+                            amount: item.amount, 
+                            picpath: "/images/" + item.barcode + ".jpg"
+                            };
+                i++;
+                itemsFormated.push(itemFormated);
+            });
+            setVarer(itemsFormated);
         });
         
     
