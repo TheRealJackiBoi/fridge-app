@@ -165,17 +165,23 @@ export class UserStorage extends React.Component {
       return (
         <table>
         <tbody>
+          {/* top row + - Search */}
           <tr>
+            {/* + - */}
             <td className="image-display">
+              {/* + */}
               <div className="plus-minus-btn click">
                 <i className="fa fa-plus" aria-hidden="true"></i>
               </div>
+              {/* - */}
               <div id="remove-item" className="plus-minus-btn click" onClick={this.removeHandler} style= {{ backgroundColor:  '#e95959'}} >
                 <i className="fa fa-minus" aria-hidden="true"></i>
               </div>
             </td>
+            {/* Search */}
             <td className="searchbar-varer-td"><SearchBar onInput={this.onInput} /></td>
             </tr>
+          {/* row of headers for table */}
           <tr>
             <th></th>
             <th className="image-display" ></th>
@@ -183,10 +189,11 @@ export class UserStorage extends React.Component {
             <th className="ud-dato" >Ud-Dato</th>  
             <th className="amount" >Antal</th>  
           </tr>
+          {/* Rows of items */}
             { this.state.varer.map(item => 
               <tr key={item.key}>
                 <td className="remove-button click">
-                  <Button key={item.key} item={item} onClick={this.removeItem}/>
+                  <Button className="" key={item.key} item={item} onClick={this.removeItem}/>
                   </td>
                 <td className="image-display" >
                   <img src={item.picpath} alt={item.picpath}/>
@@ -204,35 +211,42 @@ export class UserStorage extends React.Component {
       <table>
         { this.state.add === "true" ? <NewItemMenu user={this.props.user} database={this.props.database} addHandler={this.addHandler} /> : <thead></thead>}
         <tbody>
+           {/* top row + - Search */}
           <tr>
+            {/* + - */}
             <td className="image-display">
+              {/* + */}
               <div className="plus-minus-btn click"> 
                 <button id="plus-button" onClick={this.addHandler}>
                   <i className="fa fa-plus" aria-hidden="true"></i>
                 </button>
               </div>
+              {/* - */}
               <div id="remove-item" className="plus-minus-btn click" onClick={this.removeHandler}>
                 <i className="fa fa-minus" aria-hidden="true"></i>
               </div>
             </td>
-            <td className="searchbar-varer-td"><SearchBar onInput={this.onInput} /></td>
+              {/* Search */}
+              <td className="searchbar-varer-td"><SearchBar onInput={this.onInput} /></td>
             </tr>
+            {/* row of headers for table */}
           <tr>
             <th className="image-display" ></th>
             <th className="varenavn">Varenavn</th>  
             <th className="ud-dato" >Ud-Dato</th>  
             <th className="amount" >Antal</th>  
           </tr>
-        { this.state.varer.map(item => 
-        <tr key={item.key}>
-          <td className="image-display" >
-            <img src={item.picpath} alt={item.picpath}/>
-          </td>
-          <td>{item.name}</td>
-          <td className="ud-dato" >{item.date}</td>
-          <td className="amount">{item.amount}</td>
-        </tr>)
-        }
+          {/* Rows of items */}
+          { this.state.varer.map(item => 
+          <tr key={item.key}>
+            <td className="image-display" >
+              <img src={item.picpath} alt={item.picpath}/>
+            </td>
+            <td>{item.name}</td>
+            <td className="ud-dato" >{item.date}</td>
+            <td className="amount">{item.amount}</td>
+          </tr>)
+          }
         </tbody>
       </table>
     );}

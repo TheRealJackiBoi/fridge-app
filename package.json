@@ -9,6 +9,7 @@
     "firebase": "^8.2.10",
     "firebase-admin": "^9.5.0",
     "firebase-auth": "^0.1.2",
+    "package": "^1.0.1",
     "package.json": "^2.0.1",
     "pkg.json": "^2.0.8",
     "react": "^17.0.1",
