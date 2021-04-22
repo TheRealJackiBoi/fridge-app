@@ -103,14 +103,22 @@ export class UserStorage extends React.Component {
     });
     }
 
+    //change the date of the item eventhandler
+    changeDateHandler = (item, element) => {
+      const userVarer = this.props.database.ref('users/'+ this.state.userKey + '/varer/' + item.key)
+      
+      userVarer.update({date: element.value});
+      console.log(element.value); 
+      
+      console.log(item.key, ' changed date from user: ', this.state.userKey);
+    }
+
     //removeItem eventhandler
     removeItem = item => {
       
       const userVarer = this.props.database.ref('users/'+ this.state.userKey + '/varer/' + item.key)
       
       userVarer.remove();
-      
-      console.log(item.key, ' removed from user: ', this.state.userKey);
   }
 
     //Runs when components mounts to the dom
@@ -239,11 +247,24 @@ export class UserStorage extends React.Component {
               <img src={item.picpath} alt={item.picpath}/>
             </td>
             <td>{item.name}</td>
-            <td className="ud-dato" >{item.date}</td>
+            <td className="ud-dato" ><ChangeDate onClick={this.changeDateHandler} item={item} /></td>
             <td className="amount">{item.amount}</td>
           </tr>)
           }
         </tbody>
       </table>
     );}
+  }
+
+  const ChangeDate = props => {
+
+    const handleClick = (e) => {
+      if (props.onClick) {
+        props.onClick(props.item, e.target);
+      }
+  }
+
+    return (
+      <input id={props.item.key + "dato"} className="input-date" type="date" value={props.item.date} onChange={handleClick}></input>
+    )
   }

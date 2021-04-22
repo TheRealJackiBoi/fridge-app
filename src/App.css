@@ -53,8 +53,8 @@ body {
 }
 
 #app {
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
   
 }
@@ -235,8 +235,21 @@ th {
 .ud-dato th {
   text-align: left;
 }
+
+.input-date {
+  background-color: var(--nearly-white);
+  outline: none;
+  border: none;
+}
+
 .amount  th {
   text-align: left;
+}
+
+.amount-input {
+  background-color: var(--nearly-white);
+  outline: none;
+  border: none;
 }
 
 .image-display {
@@ -324,4 +337,21 @@ th {
   padding-left: 0;
   margin: 0;
   font-size: 0.02rem;
+}
+
+
+@media only screen and (max-width: 860px) {
+  #main {
+    grid-template-columns: 10fr;
+    width: 100%;
+  }
+  
+  #profile {
+    margin: 2vh auto auto;
+    width: 100%;
+  }
+
+  #fridge-image-container {
+    display: none;
+  }
 }
