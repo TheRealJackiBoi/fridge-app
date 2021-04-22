@@ -108,9 +108,13 @@ export class UserStorage extends React.Component {
       const userVarer = this.props.database.ref('users/'+ this.state.userKey + '/varer/' + item.key)
       
       userVarer.update({date: element.value});
-      console.log(element.value); 
+    }
+
+    //change the amount of the item eventhandler
+    changeAmountHandler = (item, element) => {
+      const userVarer = this.props.database.ref('users/'+ this.state.userKey + '/varer/' + item.key)
       
-      console.log(item.key, ' changed date from user: ', this.state.userKey);
+      userVarer.update({amount: element.value});
     }
 
     //removeItem eventhandler
@@ -247,8 +251,8 @@ export class UserStorage extends React.Component {
               <img src={item.picpath} alt={item.picpath}/>
             </td>
             <td>{item.name}</td>
-            <td className="ud-dato" ><ChangeDate onClick={this.changeDateHandler} item={item} /></td>
-            <td className="amount">{item.amount}</td>
+            <td className="ud-dato" ><ChangeDate onChange={this.changeDateHandler} item={item} /></td>
+            <td className="amount" ><ChangeAmount onChange={this.changeAmountHandler} item={item} /></td>
           </tr>)
           }
         </tbody>
@@ -259,12 +263,24 @@ export class UserStorage extends React.Component {
   const ChangeDate = props => {
 
     const handleClick = (e) => {
-      if (props.onClick) {
-        props.onClick(props.item, e.target);
+      if (props.onChange) {
+        props.onChange(props.item, e.target);
       }
   }
 
     return (
       <input id={props.item.key + "dato"} className="input-date" type="date" value={props.item.date} onChange={handleClick}></input>
+    )
+  }
+
+  const ChangeAmount = props => {
+    const handleClick = (e) => {
+      if (props.onChange) {
+        props.onChange(props.item, e.target);
+      }
+  }
+
+    return (
+      <input id={props.item.key + "amount"} className="input-amount" type="number" min="1" value={props.item.amount} onChange={handleClick}></input>
     )
   }

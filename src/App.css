@@ -165,6 +165,7 @@ td, th {
   color: var(--text-color-dark);
   
   padding-left: 20px;
+  padding-right: 20px;
   border-radius: 8px;
   box-shadow: 0px 3px 3px var(--shadow-color);
 }
@@ -246,10 +247,16 @@ th {
   text-align: left;
 }
 
-.amount-input {
+.input-amount {
   background-color: var(--nearly-white);
   outline: none;
   border: none;
+  width: 2.5rem;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button {  
+   opacity: 1;
 }
 
 .image-display {
