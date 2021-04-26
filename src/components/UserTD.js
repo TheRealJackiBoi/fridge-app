@@ -1,6 +1,6 @@
 import React from 'react';
 import { NewItemMenu } from './NewItemMenu';
-import {SearchBar} from './SearchBar';
+
 
 
 // mini button component, so that it is possible to give the event handler the item object to process 
@@ -29,23 +29,17 @@ export class UserStorage extends React.Component {
         userKey: ""
       };
 
-      this.onInput = this.onInput.bind(this); 
       this.removeHandler = this.removeHandler.bind(this); 
-      this.addHandler = this.addHandler.bind(this); 
-  
-    }
-    //work in progress
-    onInput(input) {
-        this.setState({searchinput: input});
-        const oldVarer = this.state.varer;
-        this.setState({varer: []});
-        oldVarer.forEach(item => {
-          if(item.name.includes(this.state.searchinput)) {
-            this.setState({varer: [item].concat(this.state.varer)});
-          }
-        });
+      this.addHandler = this.addHandler.bind(this);   
+      this.handleSearchInput = this.handleSearchInput.bind(this);
     }
     
+    handleSearchInput(e) {
+        this.setState({searchinput: e.target.value});
+        this.getUserKey();
+    }
+
+
     removeHandler() {
       if (this.state.remove === "true") {
         this.setState({remove: "false"})
@@ -92,7 +86,9 @@ export class UserStorage extends React.Component {
                         picpath: "/images/" + item.barcode + ".jpg"
                       };
                       i++;
-                      itemsFormated.push(itemFormated)
+                      if(itemFormated.name.toLowerCase().includes(String(this.state.searchinput))) {
+                        itemsFormated.push(itemFormated);
+                      }
                   });   
                   this.setState({varer: itemsFormated});
                 }});
@@ -187,7 +183,9 @@ export class UserStorage extends React.Component {
               </div>
             </td>
             {/* Search */}
-            <td className="searchbar-varer-td"><SearchBar onInput={this.onInput} /></td>
+            <td className="searchbar-varer-td">
+              <input id="searchbar-varer" type="text" placeholder="Søg" onChange={this.handleSearchInput}></input>
+              </td>
             </tr>
           {/* row of headers for table */}
           <tr>
@@ -235,7 +233,9 @@ export class UserStorage extends React.Component {
               </div>
             </td>
               {/* Search */}
-              <td className="searchbar-varer-td"><SearchBar onInput={this.onInput} /></td>
+              <td className="searchbar-varer-td">
+                <input id="searchbar-varer" type="text" placeholder="Søg" onChange={this.handleSearchInput}></input>
+                </td>
             </tr>
             {/* row of headers for table */}
           <tr>
