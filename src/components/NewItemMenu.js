@@ -25,6 +25,7 @@ export function NewItemMenu(props) {
     const [user, setUser] = useState(props.user);
     const [userKey, setUserKey] = useState("1");
     const [varer, setVarer] = useState([]);
+    const [searchInput, setSearchInput] = useState("");
 
     //the database variable recieved from props
     const database = props.database;
@@ -45,8 +46,35 @@ export function NewItemMenu(props) {
     }
     
 
+    
     //newItem
     const userItemsRef = database.ref('varer/');  
+
+    //load varer
+    const loadVarer = () => {
+        userItemsRef.on('value', (snapshot) => {
+            const items = snapshot.val();
+            let itemsFormated = [];
+            let i = 0;
+            Object.values(items).forEach(item =>{
+                const key = Object.keys(items)[i];
+                const itemFormated = { 
+                            key: key, 
+                            barcode: item.barcode,
+                            date: item.date, 
+                            name: item.name, 
+                            amount: item.amount, 
+                            picpath: "/images/" + item.barcode + ".jpg"
+                            };
+                i++;
+                if(itemFormated.name.toLowerCase().includes(searchInput.toLowerCase())) {
+                    itemsFormated.push(itemFormated);
+                }
+            });
+            setVarer(itemsFormated);
+        });
+    }
+
 
     //useEffect so that the page listens for values of varer from the database
     useEffect(() => {
@@ -71,30 +99,20 @@ export function NewItemMenu(props) {
           });
           }
 
-          getUserKey();
-
-        userItemsRef.on('value', (snapshot) => {
-            const items = snapshot.val();
-            let itemsFormated = [];
-            let i = 0;
-            Object.values(items).forEach(item =>{
-                const key = Object.keys(items)[i];
-                const itemFormated = { 
-                            key: key, 
-                            barcode: item.barcode,
-                            date: item.date, 
-                            name: item.name, 
-                            amount: item.amount, 
-                            picpath: "/images/" + item.barcode + ".jpg"
-                            };
-                i++;
-                itemsFormated.push(itemFormated);
-            });
-            setVarer(itemsFormated);
-        });
+        getUserKey();
         
-    
+
+        loadVarer();
+        
     }, []);
+
+
+    const handleSearchInput = e => {
+        setSearchInput(e.target.value);
+        loadVarer();
+    }
+
+
 
     return (
         <div id="newItemMenu">
@@ -106,7 +124,7 @@ export function NewItemMenu(props) {
             <div id="newitemDisplay">
                 {/* the search bar */}
                     <div id="searchbar-varer-div">
-                        <input id="searchbar-varer" type="text" placeholder="Søg" ></input>
+                        <input id="searchbar-varer" type="text" placeholder="Søg" onChange={handleSearchInput} ></input>
                     </div>
                 {/* the display of items using the Button component from earlier */}
                 <div id="itemDisplayIcon" >
