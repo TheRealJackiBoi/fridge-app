@@ -101,7 +101,6 @@ export function NewItemMenu(props) {
 
         getUserKey();
         
-
         loadVarer();
         
     }, []);
