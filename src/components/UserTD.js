@@ -143,29 +143,7 @@ export class UserStorage extends React.Component {
             return list;
           });
         }
-      });
-
-      //changedItem
-      //https://duckduckgo.com/?q=how+to+replace+an+item+in+array+js+with+out+knowing+index&ia=web&iax=qa
-      // userItemsRef.on('child_changed', (snapshot) => {
-      //   const items = snapshot.val();
-      //   console.log(items, "changed");
-
-      //   const key = snapshot.key;
-      //   let item = { key: key, date: items.date, name: items.name, amount: items.amount, picpath: "/images/" + items.barcode + ".jpg"};
-      //   this.setState(state => 
-      //     {
-      //       const newItems = this.state.varer.map((i, key, item) => {
-      //         if (i.key === key) {
-      //           return item;
-      //         } else {
-      //           return i;
-      //         }
-      //       })
-      //       return newItems;
-      //     });
-      // });
-    
+      });   
     }
   
   render() {

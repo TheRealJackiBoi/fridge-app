@@ -56,12 +56,6 @@ ReactDOM.render(
 );
 
 
-const checkUserInDb = (user) => {
-  
-  }
-
-
-
 auth.onAuthStateChanged(user => {
   if (user) {
     if (user != null) {    
