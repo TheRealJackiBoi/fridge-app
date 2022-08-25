@@ -1,7 +1,7 @@
 import firebase from 'firebase';
 
   var firebaseConfig = {
-    apiKey: "AIzaSyBSj8agCOdeMpAzDcC8RKg3Qc_JOSVlUrQ",
+    apiKey: process.argv.API_KEY,
     authDomain: "fridge-24d33.firebaseapp.com",
     databaseURL: "https://fridge-24d33-default-rtdb.europe-west1.firebasedatabase.app",
     projectId: "fridge-24d33",
